@@ -5,9 +5,18 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet],
-  templateUrl: './app.component.html',
+  template: `
+    <main>
+      <header class="navDiv">
+        <div id="navbar"></div>
+      </header>
+      <section class="mainDiv">
+        <router-outlet></router-outlet>
+      </section>
+    </main>
+  `,
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'vocab-app';
+  title = 'Vocabulary Mogul';
 }
