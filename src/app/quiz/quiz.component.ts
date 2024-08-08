@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-
+import { VocabularyDefinition } from '../vocab-definition';
+import { VocabularyList } from '../vocab-list';
 
 @Component({
   selector: 'app-quiz',
@@ -10,6 +10,11 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './quiz.component.scss'
 })
 export class QuizComponent {
-  route: ActivatedRoute = inject(ActivatedRoute)
 
+  vocabularyList = inject(VocabularyList);
+  vocabularyDefinition: VocabularyDefinition | undefined;
+
+  constructor() {
+    this.vocabularyDefinition = this.vocabularyList.getVocabularyQuiz();
+  }
 }

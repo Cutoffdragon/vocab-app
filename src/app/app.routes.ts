@@ -15,7 +15,7 @@ export const routes: Routes = [
         title: 'Sign Up'
     },
     {
-        path: 'quiz/:difficulty',
+        path: 'quiz',
         component: QuizComponent,
         title: 'Vocabulary Quiz'
     }
