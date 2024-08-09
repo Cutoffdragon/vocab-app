@@ -2829,6 +2829,10 @@ export class VocabularyList {
         return this.vocabularyDefinition.find(vocabularyWord => vocabularyWord.id === id);
     }
 
+    getVocabularyByDefinition(definition: string): VocabularyDefinition | undefined {
+        return this.vocabularyDefinition.find(vocabularyWord => vocabularyWord.definition === definition)
+    }
+
     generateVocabularyNumbers(input: number): number[] {
         const numbers: number[] = [];
 
@@ -2840,7 +2844,7 @@ export class VocabularyList {
         return numbers;
     }
 
-    getVocabularyQuiz(): VocabularyDefinition {
+    getVocabularyQuiz(): VocabularyDefinition[] {
         const quizNumberArray: number[] = this.generateVocabularyNumbers(this.vocabularyDefinition.length);
         const quizArray: any = [];
 
