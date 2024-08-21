@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VocabularyDefinition } from '../vocab-definition';
+import { QuizQuestion } from '../quiz-question';
 import { VocabularyList } from '../vocab-list';
 import { QuizCardComponent } from '../quiz-card/quiz-card.component';
 
@@ -14,7 +14,7 @@ import { QuizCardComponent } from '../quiz-card/quiz-card.component';
 export class QuizComponent {
 
   vocabularyList: VocabularyList = inject(VocabularyList);
-  vocabularyDefinition: VocabularyDefinition[] = [];
+  vocabularyDefinition: QuizQuestion[];
 
   constructor() {
     this.vocabularyDefinition = this.vocabularyList.getVocabularyQuiz();

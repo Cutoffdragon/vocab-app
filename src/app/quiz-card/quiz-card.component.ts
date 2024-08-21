@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { VocabularyDefinition } from '../vocab-definition';
+import { QuizQuestion } from '../quiz-question';
 
 @Component({
   selector: 'app-quiz-card',
@@ -9,7 +9,7 @@ import { VocabularyDefinition } from '../vocab-definition';
   styleUrl: './quiz-card.component.scss'
 })
 export class QuizCardComponent {
-  @Input() vocabularyDefinition!:VocabularyDefinition;
+  @Input() vocabularyDefinition!:QuizQuestion;
 
   constructor() {
     
