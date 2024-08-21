@@ -15,7 +15,7 @@ export class VocabularyList {
 
     async loadVocabularyForQuiz(): Promise<void> {
         // Fetch a subset of 15 vocabulary words
-        this.vocabularySubset = await this.supabaseService.getVocabularySubset(15);
+        this.vocabularySubset = await this.supabaseService.getVocabularySubset(this.generateVocabularyNumbers(15, 562));
         this.precomputeDistractors();
         console.log(this.vocabularySubset)
     }
@@ -65,14 +65,14 @@ export class VocabularyList {
     }
 
     // Utility method to generate unique random numbers
-    /* private generateVocabularyNumbers(count: number, max: number): number[] {
+    private generateVocabularyNumbers(count: number, max: number): number[] {
         const numbers = new Set<number>();
 
         while (numbers.size < count) {
             const randomNumber = Math.floor(Math.random() * max);
             numbers.add(randomNumber);
         }
-
+        console.log(Array.from(numbers))
         return Array.from(numbers);
-    } */
+    } 
 }
