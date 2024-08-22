@@ -12,21 +12,28 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 export class SupabaseService {
 
   async getVocabularySubset(numArray: number[]): Promise<VocabularyDefinition[]> {
-    const vocabArray: any = [];
+    const vocabArray: VocabularyDefinition[] = [];
+  
     for (let i = 0; i < numArray.length; i++) {
       const { data, error } = await supabase
         .from('Vocabulary')
         .select('*')
-        .eq('id', numArray[i])
-      vocabArray.push(data);
+        .eq('id', numArray[i]);
+  
       if (error) {
         console.error('Error fetching vocabulary:', error);
         return [];
       }
+  
+      if (data && data.length > 0) {
+        vocabArray.push(data[0]);  // Push the first object in the data array
+      }
     }
-
+  
     return vocabArray;
   }
+  
+  
 
   async getAllVocabulary(): Promise<VocabularyDefinition[]> {
     const { data, error } = await supabase

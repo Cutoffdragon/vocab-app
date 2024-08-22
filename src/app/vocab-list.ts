@@ -17,7 +17,6 @@ export class VocabularyList {
         // Fetch a subset of 15 vocabulary words
         this.vocabularySubset = await this.supabaseService.getVocabularySubset(this.generateVocabularyNumbers(15, 562));
         this.precomputeDistractors();
-        console.log(this.vocabularySubset)
     }
 
     private precomputeDistractors(): void {
@@ -40,28 +39,30 @@ export class VocabularyList {
         return this.distractorCache[correctId];
     }
 
-    getVocabularyQuiz(): QuizQuestion[] {
+    private shuffleArray(array: any[]): any[] {
+        return array.sort(() => Math.random() - 0.5);
+    }
 
-        this.loadVocabularyForQuiz();
+
+    getVocabularyQuiz(): QuizQuestion[] {
         
         const quizQuestions: QuizQuestion[] = [];
 
-        for (const vocab of this.vocabularySubset) {
-            const distractors = this.getCachedDistractors(vocab.id); // Use cached distractors
-            const options = this.shuffleArray([vocab.definition, ...distractors]); // Include the correct definition and shuffle
-
-            quizQuestions.push({ 
-                word: vocab.word, 
-                options: options, 
-                correct: vocab.definition 
-            });
-        }
-
+        this.loadVocabularyForQuiz().then(() => {
+        
+            for (const vocab of this.vocabularySubset) {
+                const distractors = this.getCachedDistractors(Number(vocab.id)); // Use cached distractors
+                const options = this.shuffleArray([vocab.definition, ...distractors]); // Include the correct definition and shuffle
+        
+                quizQuestions.push({ 
+                    word: vocab.word, 
+                    options: options, 
+                    correct: vocab.definition 
+                });
+            }
+        });
+        
         return quizQuestions;
-    }
-
-    private shuffleArray(array: any[]): any[] {
-        return array.sort(() => Math.random() - 0.5);
     }
 
     // Utility method to generate unique random numbers
@@ -72,7 +73,10 @@ export class VocabularyList {
             const randomNumber = Math.floor(Math.random() * max);
             numbers.add(randomNumber);
         }
-        console.log(Array.from(numbers))
         return Array.from(numbers);
     } 
+
+    
 }
+
+

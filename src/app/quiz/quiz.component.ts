@@ -18,6 +18,5 @@ export class QuizComponent {
 
   constructor() {
     this.vocabularyDefinition = this.vocabularyList.getVocabularyQuiz();
-    console.log(this.vocabularyDefinition);
   }
 }
