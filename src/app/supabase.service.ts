@@ -33,11 +33,9 @@ export class SupabaseService {
     return vocabArray;
   }
   
-  
-
   async getAllVocabulary(): Promise<VocabularyDefinition[]> {
     const { data, error } = await supabase
-      .from('vocabulary')
+      .from('Vocabulary')
       .select('*');
 
     if (error) {
@@ -47,4 +45,24 @@ export class SupabaseService {
 
     return data;
   }
+
+  async getDefinitionsById(idArray: number[]) : Promise<string[]> {
+    const definitionArray : string[] = []
+    idArray.forEach(async idNumber => {
+      const { data, error } = await supabase
+      .from('Vocabulary')
+      .select('*')
+      .eq('id', idNumber);
+
+      if (error) {
+        console.log('Error fetching definition:', error);
+        return [];
+      }
+      definitionArray.push(data[0]['definition'])
+      return data;
+    }
+  )
+  return definitionArray;
+  }
+
 }

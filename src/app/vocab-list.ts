@@ -14,25 +14,22 @@ export class VocabularyList {
     constructor(private supabaseService: SupabaseService) {}
 
     async loadVocabularyForQuiz(): Promise<void> {
-        // Fetch a subset of 15 vocabulary words
-        this.vocabularySubset = await this.supabaseService.getVocabularySubset(this.generateVocabularyNumbers(15, 562));
-        this.precomputeDistractors();
-    }
-
-    private precomputeDistractors(): void {
-        this.vocabularySubset.forEach(vocab => {
-            this.distractorCache[vocab.id] = this.generateDistractors(vocab.id, 3);
-        });
-    }
-
-    private generateDistractors(correctId: number, distractorCount: number): string[] {
-        // Get distractors from the fetched subset
-        const availableDistractors = this.vocabularySubset
-            .filter(vocab => vocab.id !== correctId) // Exclude the correct definition
-            .map(vocab => vocab.definition);
-
-        // Shuffle and slice to get a fixed number of distractors
-        return this.shuffleArray(availableDistractors).slice(0, distractorCount);
+        try {
+            // Fetch the subset of vocabulary words
+            this.vocabularySubset = await this.supabaseService.getVocabularySubset(this.generateVocabularyNumbers(15, 562));
+    
+            // Create an array of promises for fetching distractors
+            const distractorPromises = this.vocabularySubset.map(async (vocab) => {
+                this.distractorCache[vocab.id] = await this.supabaseService.getDefinitionsById(this.generateVocabularyNumbers(3, 562));
+            });
+    
+            // Wait for all distractor fetches to complete
+            await Promise.all(distractorPromises);
+    
+        } catch (error) {
+            console.error("Failed to load vocabulary for quiz:", error);
+            // Handle the error appropriately, e.g., show a message to the user
+        }
     }
 
     private getCachedDistractors(correctId: number): string[] {
@@ -75,7 +72,6 @@ export class VocabularyList {
         }
         return Array.from(numbers);
     } 
-
     
 }
 
