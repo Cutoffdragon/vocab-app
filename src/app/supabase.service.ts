@@ -13,26 +13,26 @@ export class SupabaseService {
 
   async getVocabularySubset(numArray: number[]): Promise<VocabularyDefinition[]> {
     const vocabArray: VocabularyDefinition[] = [];
-  
+
     for (let i = 0; i < numArray.length; i++) {
       const { data, error } = await supabase
         .from('Vocabulary')
         .select('*')
         .eq('id', numArray[i]);
-  
+
       if (error) {
         console.error('Error fetching vocabulary:', error);
         return [];
       }
-  
+
       if (data && data.length > 0) {
         vocabArray.push(data[0]);  // Push the first object in the data array
       }
     }
-  
+
     return vocabArray;
   }
-  
+
   async getAllVocabulary(): Promise<VocabularyDefinition[]> {
     const { data, error } = await supabase
       .from('Vocabulary')
@@ -46,23 +46,20 @@ export class SupabaseService {
     return data;
   }
 
-  async getDefinitionsById(idArray: number[]) : Promise<string[]> {
-    const definitionArray : string[] = []
-    idArray.forEach(async idNumber => {
-      const { data, error } = await supabase
-      .from('Vocabulary')
-      .select('*')
-      .eq('id', idNumber);
-
+  async getDefinitionsById(idArray: number[]): Promise<string[]> {
+    const definitionArray: string[] = []
+    for (let i = 0; i < idArray.length; i++) {
+        const { data, error } = await supabase
+          .from('Vocabulary')
+          .select('*')
+          .eq('id', idArray[i]);
       if (error) {
         console.log('Error fetching definition:', error);
         return [];
       }
       definitionArray.push(data[0]['definition'])
-      return data;
     }
-  )
-  return definitionArray;
+    return definitionArray;
   }
 
 }
