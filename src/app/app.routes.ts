@@ -10,7 +10,7 @@ export const routes: Routes = [
         title: 'Vocabulary Mogul'
     },
     {
-        path: 'register',
+        path: 'registerPage',
         component: RegisterComponent,
         title: 'Sign Up'
     },

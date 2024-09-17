@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { AuthenticationService } from '../auth.service';
 
 @Component({
   selector: 'app-register',
@@ -9,4 +10,24 @@ import { Component } from '@angular/core';
 })
 export class RegisterComponent {
 
+  private authService : AuthenticationService = Inject(AuthenticationService);
+
+  username: string = '';
+  password: string = '';
+
+  constructor() {}
+
+  register(): void {
+    this.authService.register(this.username, this.password).subscribe({
+      next: (data) => {
+        console.log('Registration Received', data);
+      },
+      error: (err) => {
+        console.log('Registration Failed', err);
+      },
+      complete: () => {
+        console.log('Registration Complete');
+      }
+    })
+  }
 }
